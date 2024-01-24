@@ -1,20 +1,33 @@
 package com.app.bugtrackerapp
 
 import android.net.Uri
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.app.bugtrackerapp.data.Repository
+import com.app.bugtrackerapp.data.remote.request.AddBugRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import java.net.URI
+import java.text.SimpleDateFormat
+import java.util.Date
 import javax.inject.Inject
 
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
-    val _sharedText = MutableLiveData<Uri>()
+    var description : String ="";
+    var imageUri : Uri? = null;
+
+    suspend fun addBug() {
+        var sheetName = getSheetName()
+        repository.addBug( AddBugRequest("insert",sheetName,imageUri?.toString(),description))
+    }
+
+    private fun getSheetName(): String {
+        var format = SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss Z")
+        val newDate: Date = Date()
+        format = SimpleDateFormat("MM-DD-YYYY")
+        return format.format(newDate)
+    }
+
+    val _sharedImage = MutableLiveData<Uri>()
 
 }

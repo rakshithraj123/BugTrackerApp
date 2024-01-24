@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -84,9 +83,14 @@ open class MainActivity : ComponentActivity(){
                         Description(
                             description,
                             onValueChange = {
+                                 description = it
+                                 viewModel.description =  it.text
                                 },
                         )
-                        Submit()
+                        Submit {
+                            runSheet()
+                            description = TextFieldValue("")
+                        }
                     }
 
                 }
@@ -96,10 +100,10 @@ open class MainActivity : ComponentActivity(){
     }
 
     @Composable
-    private fun Submit() {
+    private fun Submit(onSubmit: () -> Unit) {
         Button(
             onClick = {
-
+                onSubmit()
             },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor =  Color.Blue,
@@ -198,10 +202,12 @@ open class MainActivity : ComponentActivity(){
         val launcher = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             //When the user has selected a photo, its URI is returned here
             photoUri = uri
+            viewModel.imageUri = photoUri
         }
         val cameraLauncher =
             rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { uri ->
                 photoUri = takePictureUri
+                viewModel.imageUri = photoUri
             }
 
         val permissionLauncher = rememberLauncherForActivityResult(
@@ -216,8 +222,7 @@ open class MainActivity : ComponentActivity(){
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.Red)) {
+                    .fillMaxWidth()) {
 
 
             Button(
@@ -292,13 +297,14 @@ open class MainActivity : ComponentActivity(){
         }
 
         val lifecycleOwner = LocalLifecycleOwner.current
-        viewModel._sharedText.observe(lifecycleOwner,{
+        viewModel._sharedImage.observe(lifecycleOwner,{
             photoUri = it
+            viewModel.imageUri = it
         })
     }
-    fun runSheet(view: View) {
+    fun runSheet() {
         GlobalScope.launch {
-
+              viewModel.addBug()
         }
     }
 
@@ -319,7 +325,7 @@ open class MainActivity : ComponentActivity(){
                 intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
             }
             if (imageUri != null) {
-               viewModel._sharedText.postValue(imageUri)
+               viewModel._sharedImage.postValue(imageUri)
             }
         }
     }

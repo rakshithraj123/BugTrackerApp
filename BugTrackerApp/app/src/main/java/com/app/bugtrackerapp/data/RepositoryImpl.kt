@@ -3,7 +3,6 @@ package com.app.bugtrackerapp.data
 import android.util.Log
 import com.app.bugtrackerapp.data.remote.NetworkRepository
 import com.app.bugtrackerapp.data.remote.request.AddBugRequest
-import com.app.bugtrackerapp.model.Bug
 
 import javax.inject.Inject
 
@@ -13,9 +12,9 @@ class RepositoryImpl @Inject constructor(
 ) : Repository {
 
 
-    override suspend fun loginUser(loginRequest: AddBugRequest): Bug {
+    override suspend fun addBug(loginRequest: AddBugRequest): String {
         Log.d("loginUser","RepositoryImpl");
-        return networkRepository.loginUser(loginRequest)
+        return networkRepository.addBug(loginRequest)
 
 
     }

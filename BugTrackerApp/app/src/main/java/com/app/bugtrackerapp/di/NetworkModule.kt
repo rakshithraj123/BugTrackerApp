@@ -20,7 +20,7 @@ open class NetworkModule {
         return Retrofit.Builder()
             .client(RetrofitInstance.okHttpClient)
             .baseUrl(RetrofitInstance.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().apply { setLenient() }.create()))
             .build().create(RetrofitAPIService::class.java)
     }
 

@@ -6,7 +6,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
 object RetrofitInstance {
-    val BASE_URL = ""
+    val BASE_URL = "https://script.google.com/macros/s/AKfycbwA-CnR_BTt1ILVGxipsC01F1iyRYk-TqlftH9l8te5YZ8Vl_4KW8LPNYvwnj4uX6y2CA/"
 
     private const val TIMEOUT = 30L // in seconds
 
