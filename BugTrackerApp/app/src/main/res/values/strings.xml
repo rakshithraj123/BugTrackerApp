@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BugTrackerApp</string>
+    <string name="discription">Bug Discription</string>
 </resources>
