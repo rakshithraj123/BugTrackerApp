@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "551840861313",
+    "project_id": "bugtrackerapp-f8ed3",
+    "storage_bucket": "bugtrackerapp-f8ed3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551840861313:android:5e27a86206183a146c9180",
+        "android_client_info": {
+          "package_name": "com.app.bugtrackerapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCACKyDFrLkQRs4l1tKJGNRJgEU_vEx6qs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

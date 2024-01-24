@@ -76,31 +76,43 @@ open class MainActivity : ComponentActivity(){
                     color = Color.LightGray,
 
                     ) {
-                    var description by remember { mutableStateOf(TextFieldValue("")) }
-                    Column(modifier = Modifier.padding(10.dp)) {
-
-                        PhotoPickerDemoScreen()
-                        Description(
-                            description,
-                            onValueChange = {
-                                 description = it
-                                 viewModel.description =  it.text
-                                },
-                        )
-                        Submit {
-                            runSheet()
-                            description = TextFieldValue("")
-                        }
-                    }
+                    mainView()
 
                 }
             }
         }
         handleSendIntent(intent)
     }
+    @Composable
+    private fun mainView() {
+        var description by remember { mutableStateOf(TextFieldValue("")) }
+        Column(modifier = Modifier.padding(10.dp)) {
+
+            PhotoPickerDemoScreen()
+            Description(
+                description,
+                onValueChange = {
+                    description = it
+                    viewModel.description =  it.text
+                },
+            )
+            Submit {
+                runSheet()
+                description = TextFieldValue("")
+            }
+        }
+    }
 
     @Composable
     private fun Submit(onSubmit: () -> Unit) {
+        var text by remember { mutableStateOf(getString(R.string.submit)) }
+        viewModel.loading.observe(LocalLifecycleOwner.current) {
+            if(it){
+                text = getString(R.string.sending)
+            }else{
+                text = getString(R.string.submit)
+            }
+        }
         Button(
             onClick = {
                 onSubmit()
@@ -114,7 +126,7 @@ open class MainActivity : ComponentActivity(){
                 .fillMaxWidth()
                 .padding(top = 40.dp)
         ) {
-            Text("Submit")
+            Text(text)
         }
     }
 
@@ -304,7 +316,7 @@ open class MainActivity : ComponentActivity(){
     }
     fun runSheet() {
         GlobalScope.launch {
-              viewModel.addBug()
+              viewModel.addBug(baseContext)
         }
     }
 
@@ -315,6 +327,9 @@ open class MainActivity : ComponentActivity(){
         handleSendIntent(intent);
     }
 
+    /**
+     * handle incoming intent
+     */
     private fun handleSendIntent(intent: Intent) {
         val action = intent.action
         val type = intent.type

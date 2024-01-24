@@ -1,5 +1,7 @@
 package com.app.bugtrackerapp.data
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
 import com.app.bugtrackerapp.data.remote.NetworkRepository
 import com.app.bugtrackerapp.data.remote.request.AddBugRequest
@@ -17,6 +19,10 @@ class RepositoryImpl @Inject constructor(
         return networkRepository.addBug(loginRequest)
 
 
+    }
+
+    override fun uploadImage(baseContext: Context, imageUri: Uri?): String? {
+        return networkRepository.uploadImage(baseContext, imageUri)
     }
 
 
